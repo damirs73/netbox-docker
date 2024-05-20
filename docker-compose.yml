@@ -5,7 +5,7 @@ services:
     - postgres
     - redis
     - redis-cache
-    env_file: env/netbox.env
+    env_file: stack.env
     user: 'unit:root'
     healthcheck:
       start_period: 60s
@@ -47,7 +47,7 @@ services:
   # postgres
   postgres:
     image: docker.io/postgres:16-alpine
-    env_file: env/postgres.env
+    env_file: stack.env
     volumes:
     - netbox-postgres-data:/var/lib/postgresql/data
 
@@ -58,7 +58,7 @@ services:
     - sh
     - -c # this is to evaluate the $REDIS_PASSWORD from the env
     - redis-server --appendonly yes --requirepass $$REDIS_PASSWORD ## $$ because of docker-compose
-    env_file: env/redis.env
+    env_file: stack.env
     volumes:
     - netbox-redis-data:/data
   redis-cache:
@@ -67,7 +67,7 @@ services:
     - sh
     - -c # this is to evaluate the $REDIS_PASSWORD from the env
     - redis-server --requirepass $$REDIS_PASSWORD ## $$ because of docker-compose
-    env_file: env/redis-cache.env
+    env_file: stack.env
     volumes:
     - netbox-redis-cache-data:/data
 
